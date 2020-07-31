@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Blaseball Slats Viewer</title>
+	<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+	<link rel="stylesheet" href="main.css">
+</head>
+<body>
+	<div id="app">
+		<div id="teamlist">
+			<div class="team" :class="{selected: index == selected_team}" v-for="(team, index) in teams" :style="{backgroundColor: team.color1}" @click="selected_team = index">
+				{{team.icon}} {{team.name}}
+			</div>
+			<div id="dictionary">
+				<span class="dictionary" v-for="a in prop_names.map((n, i) => [n, prop_abbvr[i]])">{{a[1]}}: {{a[0]}}</span>
+			</div>
+		</div>
+		<div id="players">
+			<div class="pteam" v-for="(team, index) in teams">
+				<div v-show="index == selected_team">
+					<div class="playerhead"> <div class="name">STATS</div> <template v-for="name in prop_abbvr"> <span class="propname">{{name}}</span></template></div>
+					<div class="bar"> LINEUP </div>
+					<div v-for="player in team.lineup"><player-deets v-bind:player="player"></player-deets></div>
+					<div class="bar"> ROTATION </div>
+					<div v-for="player in team.rotation"><player-deets v-bind:player="player"></player-deets></div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<script src="js/main.js"></script>
+</body>
+</html>
