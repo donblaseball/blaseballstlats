@@ -26,13 +26,10 @@ html, body {
 	background-color: #222255;
 }
 
-.team {
-	padding: 0.2em 0.5em;
-}
+.team { padding: 0.2em 0.5em; }
 
-.team:hover, .team.selected{
-	margin: 0 0 0 0.5em;
-}
+.team:hover { margin: 0 0 0 0.5em; }
+.team.selected { margin: 0 0 0 0.7em; }
 
 #dictionary {
 	padding: 0.2em;
@@ -78,3 +75,10 @@ html, body {
 .prop.good {background-color: #33cc33;}
 .prop.ok {background-color: #eeaa33;}
 .prop.bad {background-color: #bb2233;}
+
+.notice {
+	background-color: #eeaa33;
+	border-radius: 5px;
+	margin: 0.1em;
+	padding: 0.1em 0.2em;
+}
