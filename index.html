@@ -9,13 +9,9 @@
 <body>
 	<div id="app">
 		<div id="teamlist">
-			<div class="notice" v-show="teams.length < 20">Loading teams. Some or all teams may not load correctly if the Machines are under load. Reloading will help. </div>
+			<div class="notice" v-show="teams.length < 20">Loading teams. Some or all teams may not load correctly if the Machines are under load. Reloading will help. This will disappear if all teams are loaded. </div>
 			<div class="team" :class="{selected: index == selected_team}" v-for="(team, index) in teams" :style="{backgroundColor: team.color1}" @click="selected_team = index">
 				{{team.icon}} {{team.name}}
-			</div>
-			<div id="dictionary">
-				<span class="dictionary">Abbreviations Dictionary</span>
-				<span class="dictionary" v-for="a in prop_names.map((n, i) => [n, prop_abbvr[i]])">{{a[1]}}: {{a[0]}}</span>
 			</div>
 		</div>
 		<div id="players">
@@ -27,6 +23,10 @@
 					<div class="bar"> ROTATION </div>
 					<div v-for="player in team.rotation"><player-deets v-bind:player="player"></player-deets></div>
 				</div>
+			</div>
+			<div id="dictionary">
+				<span class="dictionary">Abbreviations Dictionary</span>
+				<span class="dictionary" v-for="a in prop_names.map((n, i) => [n, prop_abbvr[i]])">{{a[1]}}: {{a[0]}}</span>
 			</div>
 		</div>
 	</div>

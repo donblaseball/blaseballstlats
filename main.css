@@ -15,7 +15,7 @@ html, body {
 
 #app {
 	display: grid;
-	grid-template-columns: 1fr 3fr;
+	grid-template-columns: 1fr 3.5fr;
 	grid-template-rows: 1fr;
 	height: 100%;
 }
@@ -34,7 +34,7 @@ html, body {
 #dictionary {
 	padding: 0.2em;
 	margin: 0.3em 0.5em;
-	background-color: #111144;
+	background-color: #575788;
 	border-radius: 5px;
 	display: flex;
 	flex-wrap: wrap;
@@ -43,7 +43,7 @@ html, body {
 .dictionary {
 	padding: 0.2em 0.4em;
 	margin: 0.1em;
-	background-color: #02020222;
+	background-color: #333366;
 	color: white;
 	border-radius: 5px;
 	border: 1px solid #000011;
@@ -59,7 +59,7 @@ html, body {
 .player, .playerhead {
 	padding: 0.1em 0;
 	display: grid;
-	grid-template-columns: 14% repeat(28, 1fr);
+	grid-template-columns: 14% repeat(31, 1fr);
 	grid-template-rows: 1fr; /*1fr;*/
 	border-bottom: 2px solid #111133;
 }
