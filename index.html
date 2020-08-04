@@ -22,9 +22,13 @@
 			<div class="notice" style="background-color: #333366">Bug? Feature request? Blaseball added a new stat and nobody noticed? Post it <a href="https://todo.sr.ht/~dittoslash/blaseballstlats">here</a> or ping me in <a href="https://discord.gg/nVZXxwX">the SIBR discord!</a></div>
 		</div>
 		<div id="players">
-			<div class="pteam" v-for="(team, index) in teams">
+			<div class="pteam" v-for="(team, index) in teams" :class="colourset_class">
 				<div v-show="index == selected_team">
-					<div class="playerhead"> <div class="name">STATS</div> <template v-for="name in prop_abbvr"> <span class="propname">{{name}}</span></template></div>
+					<div class="playerhead"> 
+						<div class="name">STATS</div> 
+						<template v-for="cat in Object.keys(prop_cats)"><span class="propcat" :style="sizePropCat(cat)">{{cat}}</span></template>
+						<template v-for="prop in prop_fulllist"><span class="propname" style="grid-row: 2" :class="doPropBorder(prop)">{{abbreviations[prop]}}</span></template>
+					</div>
 					<div class="bar"> LINEUP </div>
 					<div v-for="player in team.lineup"><player-deets v-bind:player="player"></player-deets></div>
 					<div class="bar"> ROTATION </div>
@@ -34,7 +38,19 @@
 
 			<div id="dictionary">
 				<span class="dictionary">Abbreviations Dictionary</span>
-				<span class="dictionary" v-for="a in prop_names.map((n, i) => [n, prop_abbvr[i]])">{{a[1]}}: {{a[0]}}</span>
+				<span class="dictionary" v-for="item in prop_fulllist">{{item}}: {{abbreviations[item]}}</span>
+			</div>
+
+			<div id="palettepicker">
+				<span class="palette cs_default" :class="{selected: colourset=='default'}" @click="colourset = 'default'">Default
+					<span class="bad">bad</span><span class="ok">okay</span><span class="good">good</span><span class="great">great</span>
+				</span>
+				<span class="palette cs_rg" :class="{selected: colourset=='rg'}" @click="colourset = 'rg'">Red/Green
+					<span class="bad">bad</span><span class="ok">okay</span><span class="good">good</span><span class="great">great</span>
+				</span>
+				<span class="palette cs_by" :class="{selected: colourset=='by'}" @click="colourset = 'by'">Blue/Yellow
+					<span class="bad">bad</span><span class="ok">okay</span><span class="good">good</span><span class="great">great</span>
+				</span>
 			</div>
 		</div>
 	</div>

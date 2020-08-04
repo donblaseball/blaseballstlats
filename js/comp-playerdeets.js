@@ -1,5 +1,6 @@
 Vue.component("player-deets", {
 	props: ['player'],
+	//data: function () {return {console: console}},
 	template: `
 		<div class="player">
 			<span class="name">
@@ -7,39 +8,39 @@ Vue.component("player-deets", {
 				{{player.name}} 
 				{{player.stars}}*
 			</span>
-			<span class="prop" :class="divineProp(prop, index)" v-for="(prop, index) in player.props">{{roundNicely(prop)}}</span>
+			<span class="prop" :class="[divineProp(player.props[prop], prop), doPropBorder(prop)]" v-for="prop in this.$root.prop_fulllist">
+				{{roundNicely(player.props[prop])}}
+			</span>
 		</div>
 	`,
 	methods: {
+		doPropBorder: function(prop) { //proxy
+			return this.$root.doPropBorder(prop)
+		},
 		roundNicely: function(prop) { //disdplay a prop nice and good
-			if (typeof(prop) == "boolean") { //this would be a ternary if but js doesn't want me to have nice things
-				if (prop) return "yes"
-				else return "no"
-			}
+			if (typeof(prop) == "boolean") return prop ? "yes" : "no"
 			else if (prop == Math.round(prop)) return prop
+			else if (!prop) return "undef"
 			else return prop.toFixed(3)
 		},
-		divineProp: function(propv, index) {
-			var whichprop = prop_names[index];
+		divineProp: function(propv, propName) {
 			var prop = propv;
-			//console.log(whichprop, prop)
-			if (prop_negative.includes(whichprop)) prop = 1 - propv; //prop is negative, low prop is good
+			//console.log(propName, prop)
+			if (prop_flags.bad.includes(propName)) prop = 1 - propv; //prop is negative, low prop is good
 
-			if (prop_bool.includes(whichprop)) {//prop is boolean
-				if (prop) return {"bad":true} //this would be a ternary if but js doesn't want me to have nice things
-				else return ""  
-			} 
-			else if (prop_nodivine.includes(whichprop)) return "" //fuck knows what this is lmfao
+			if (typeof(prop) == "boolean") return prop ? {"bad":true} : "" //all bools are negative so far
 
-			else if (whichprop === "totalFingers") { //fingers, 10 is normal everything else is good
+			else if (prop_flags.dontRate.includes(propName)) return "" //fuck knows what this is lmfao
+
+			else if (propName === "totalFingers") { //fingers, 10 is normal everything else is good
 				if (prop == 10) return ""
 				else return {"good":true}
 			} 
 
-			else if (whichprop === "tragicness") { //tragicness is bad if not base_tragicness but fine if it is
+			else if (propName === "tragicness") { //tragicness is bad if not base_tragicness but fine if it is
 				if (prop > base_tragicness) return {"bad":true}
 				else if (prop == base_tragicness) return ""
-				else return {"great":true} //???
+				else return {"great":true}
 			}
 
 			else if (prop > 0.9) return {"great":true} //normal rules
