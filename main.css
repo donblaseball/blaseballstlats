@@ -51,6 +51,8 @@ html, body {
 	border: 1px solid #001;
 }
 
+.palette {cursor: pointer;}
+
 .palette.selected {background-color: #44a;}
 
 .palette>span {
