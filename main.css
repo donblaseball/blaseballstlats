@@ -1,5 +1,4 @@
-/*This really needs a cleanup eventually*/
-
+/*Fonts*/
 @font-face {
 	font-family: "Lora Regular";
 	src: url("font/Lora-Regular.ttf");
@@ -15,6 +14,23 @@ html, body {
 	margin: 0;
 }
 
+/*Colourschemes*/
+.cs_default .great {background-color: #3dd;}
+.cs_default .good {background-color: #3c3;}
+.cs_default .ok {background-color: #ea3;}
+.cs_default .bad {background-color: #b23;}
+
+.cs_rg .great {background-color: #69e;}
+.cs_rg .good {background-color: #33a; color: white;}
+.cs_rg .ok {background-color: #da3;}
+.cs_rg .bad {background-color: #750;}
+
+.cs_by .great {background-color: #29b;}
+.cs_by .good {background-color: #36a;}
+.cs_by .ok {background-color: #f44;}
+.cs_by .bad {background-color: #a55;}
+
+/*Layout*/
 #app {
 	display: grid;
 	grid-template-columns: 1fr 3.5fr;
@@ -28,11 +44,55 @@ html, body {
 	background-color: #225;
 }
 
+/*Generic Elements*/
+.bar {
+	font-family: "Lora Bold";
+	padding: 0.1em 0.3em;
+	background-color: #113;
+	color: white;
+}
+
+.notice {
+	border: 1px solid black;
+	background-color: #eeaa33;
+	border-radius: 5px;
+	margin: 0.4em;
+	padding: 0.1em 0.3em;
+}
+
+a {color: #99f;}
+a:visited {color: #55f;}
+
+/*Teams*/
 .team { padding: 0.2em 0.5em; }
 
 .team:hover { margin: 0 0 0 0.5em; }
 .team.selected { margin: 0 0 0 0.7em; }
 
+/*Players*/
+.player { grid-template-rows: 1fr; }
+.playerhead { grid-template-rows: 1fr 1fr; }
+.player, .playerhead {
+	display: grid;
+	grid-template-columns: 14% repeat(31, 1fr);
+	
+	border-bottom: 2px solid #113;
+}
+
+.player>* {
+	padding: 0.1em 0;
+}
+/*Properties*/
+.name {
+	grid-column: 1 / span 1;
+	grid-row: 1 / span 2;
+}
+
+.propname, .prop {font-size: 8pt; text-align: center; border-left: 1px solid #eee;}
+.propcat {text-align: center; border-left: 2px solid black;}
+.propborderhere {border-left: 2px solid black;}
+
+/*Dictionary + Palette*/
 #dictionary, #palettepicker {
 	padding: 0.2em;
 	margin: 0.3em 0.5em;
@@ -60,57 +120,3 @@ html, body {
 	border-radius: 5px;
 	padding: 0.2em;
 }
-
-.bar {
-	font-family: "Lora Bold";
-	padding: 0.1em 0.3em;
-	background-color: #113;
-	color: white;
-}
-.player { grid-template-rows: 1fr; }
-.playerhead { grid-template-rows: 1fr 1fr; }
-.player, .playerhead {
-	display: grid;
-	grid-template-columns: 14% repeat(31, 1fr);
-	
-	border-bottom: 2px solid #113;
-}
-
-.player>* {
-	padding: 0.1em 0;
-}
-
-.name {
-	grid-column: 1 / span 1;
-	grid-row: 1 / span 2;
-}
-
-.propname, .prop {font-size: 8pt; text-align: center; border-left: 1px solid #eee;}
-.propcat {text-align: center; border-left: 2px solid black;}
-.propborderhere {border-left: 2px solid black;}
-
-.cs_default .great {background-color: #3dd;}
-.cs_default .good {background-color: #3c3;}
-.cs_default .ok {background-color: #ea3;}
-.cs_default .bad {background-color: #b23;}
-
-.cs_rg .great {background-color: #69e;}
-.cs_rg .good {background-color: #33a; color: white;}
-.cs_rg .ok {background-color: #da3;}
-.cs_rg .bad {background-color: #750;}
-
-.cs_by .great {background-color: #29b;}
-.cs_by .good {background-color: #36a;}
-.cs_by .ok {background-color: #f44;}
-.cs_by .bad {background-color: #a55;}
-
-.notice {
-	border: 1px solid black;
-	background-color: #eeaa33;
-	border-radius: 5px;
-	margin: 0.4em;
-	padding: 0.1em 0.3em;
-}
-
-a {color: #99f;}
-a:visited {color: #55f;}
