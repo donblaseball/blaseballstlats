@@ -4,7 +4,10 @@ var app = new Vue({
 		prop_names: prop_names,
 		prop_abbvr: prop_abbvr,
 		teams: [],
-		selected_team: 0
+		selected_team: 0,
+		load_fails: 0,
+		player_load_fails: 0,
+		failed_teams: false
 	}
 });
 
@@ -40,7 +43,10 @@ function getPlayers(ids, bat) {
 			new_players.push(new_player);
 		};
 		return new_players
-	})//.catch(e => console.log("couldn't get players, error:", e))
+	}).catch(function(e) {
+		console.log("couldn't get players, error:", e );
+		app.player_load_fails += 1;
+	})
 }
 
 async function getTeam(team) {
@@ -64,7 +70,12 @@ fetch('https://blaseball.com/database/allTeams')
 }).then(function(response) {
   	for (const team of response) {
     	getTeam(team).then(t => app.teams.push(t))
+    	 .catch(function(e) {
+			console.log("couldn't get team, error:", e );
+			app.team_load_fails += 1;
+		})
 	}
-})//.catch(e => console.log("sad times couldn't get teams. error:", e))
-
-
+}).catch(function(e) {
+	console.log("couldn't get teams, error:", e );
+	app.failed_teams = true;
+})

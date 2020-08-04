@@ -9,11 +9,17 @@
 <body>
 	<div id="app">
 		<div id="teamlist">
-			<div class="notice" v-show="teams.length < 20">Loading teams. Some or all teams may not load correctly if the Machines are under load. Reloading will help. This will disappear if all teams are loaded. </div>
+			<div class="notice" v-show="failed_teams">Could not load teams. Reloading will fix, unless the machines are under load.</div>
+
+			<div class="notice" v-show="load_fails > 0 || player_load_fails > 0">Some teams or players have not loaded correctly. Reloading will help, unless the machines are under significant load. {{load_fails}} failed team loads. {{player_load_fails}} failed player set loads. </div>
+
 			<div class="team" :class="{selected: index == selected_team}" v-for="(team, index) in teams" :style="{backgroundColor: team.color1}" @click="selected_team = index">
 				{{team.icon}} {{team.name}}
+				<span class="notice" v-if="team.lineup == undefined">Lineup load failed.</span>
+				<span class="notice" v-if="team.rotation == undefined">Rotation load failed.</span>
 			</div>
-			<div class="dictionary">Bug? Feature request? Blaseball added a new stat and nobody noticed? Post it <a href="https://todo.sr.ht/~dittoslash/blaseballstlats">here</a> or ping me in <a href="https://discord.gg/nVZXxwX">the SIBR discord!</a></div>
+
+			<div class="notice" style="background-color: #333366">Bug? Feature request? Blaseball added a new stat and nobody noticed? Post it <a href="https://todo.sr.ht/~dittoslash/blaseballstlats">here</a> or ping me in <a href="https://discord.gg/nVZXxwX">the SIBR discord!</a></div>
 		</div>
 		<div id="players">
 			<div class="pteam" v-for="(team, index) in teams">
@@ -25,6 +31,7 @@
 					<div v-for="player in team.rotation"><player-deets v-bind:player="player"></player-deets></div>
 				</div>
 			</div>
+
 			<div id="dictionary">
 				<span class="dictionary">Abbreviations Dictionary</span>
 				<span class="dictionary" v-for="a in prop_names.map((n, i) => [n, prop_abbvr[i]])">{{a[1]}}: {{a[0]}}</span>
