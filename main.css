@@ -1,3 +1,5 @@
+/*This really needs a cleanup eventually*/
+
 @font-face {
 	font-family: "Lora Regular";
 	src: url("font/Lora-Regular.ttf");
@@ -82,3 +84,6 @@ html, body {
 	margin: 0.1em;
 	padding: 0.1em 0.2em;
 }
+
+a {color: #99f;}
+a:visited {color: #55f;}

@@ -13,6 +13,7 @@
 			<div class="team" :class="{selected: index == selected_team}" v-for="(team, index) in teams" :style="{backgroundColor: team.color1}" @click="selected_team = index">
 				{{team.icon}} {{team.name}}
 			</div>
+			<div class="dictionary">Bug? Feature request? Blaseball added a new stat and nobody noticed? Post it <a href="https://todo.sr.ht/~dittoslash/blaseballstlats">here</a> or ping me in <a href="https://discord.gg/nVZXxwX">the SIBR discord!</a></div>
 		</div>
 		<div id="players">
 			<div class="pteam" v-for="(team, index) in teams">
@@ -30,6 +31,8 @@
 			</div>
 		</div>
 	</div>
+	<script src="js/data.js"></script>
+	<script src="js/comp-playerdeets.js"></script>
 	<script src="js/main.js"></script>
 </body>
 </html>
