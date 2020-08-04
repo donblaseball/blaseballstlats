@@ -6,7 +6,6 @@ var app = new Vue({
 		teams: [],
 		selected_team: 0,
 		load_fails: 0,
-		player_load_fails: 0,
 		failed_teams: false,
 		colourset: "default"
 	},
@@ -69,10 +68,7 @@ function getPlayers(ids, isBatter) {
 		};
 		return new_players
 
-	}).catch(function(e) {
-		console.warn("couldn't get players, error:", e );
-		app.player_load_fails += 1;
-	})
+	}).catch(function(e) {console.warn("couldn't get players, error:", e )})
 }
 
 async function getTeam(team) {
