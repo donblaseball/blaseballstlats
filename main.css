@@ -92,6 +92,17 @@ a:visited {color: #55f;}
 .propcat {text-align: center; border-left: 2px solid black;}
 .propborderhere {border-left: 2px solid black;}
 
+.propname { /*stolen from stackoverflow. i hate this as much as you do.*/
+  -webkit-touch-callout: none; /* iOS Safari */
+    -webkit-user-select: none; /* Safari */
+     -khtml-user-select: none; /* Konqueror HTML */
+       -moz-user-select: none; /* Old versions of Firefox */
+        -ms-user-select: none; /* Internet Explorer/Edge */
+            user-select: none; /* Non-prefixed version, currently
+                                  supported by Chrome, Edge, Opera and Firefox */
+}
+
+
 /*Dictionary + Palette*/
 #dictionary, #palettepicker {
 	padding: 0.2em;

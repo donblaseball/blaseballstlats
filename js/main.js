@@ -28,20 +28,32 @@ var app = new Vue({
 		sizePropCat: function (cat) { //how big should this category header be
 			return {gridColumn: "span " + prop_cats[cat].length};
 		},
-		doPropBorder: function (prop) {
+		doPropBorder: function (prop) { //determine whether or not to draw a category border here
 			return {propborderhere: this.prop_catbounds.includes(prop)};
 		},
+		sortStyleClass: function (prop) { //style prop name based on sort type
+			if (this.sort_cat == prop) return this.sort_ord === 'asc' ? {'bad':true} : {'good':true}
+			else return {};
+		},
 		sort: function (category) {
-			if (app.sort_cat === category) {
-				app.sort_ord === 'asc' ? app.sort_ord = 'dsc' : app.sort_ord = 'asc';
+			if (category === 'default') {
+				this.sort_cat = 'originalIndex';
+				this.sort_ord = 'asc';
+			} else if (this.sort_cat === category) {
+				this.sort_ord === 'asc' ? this.sort_ord = 'dsc' : this.sort_ord = 'asc';
 			} else {
-				app.sort_cat = category;
-				app.sort_ord = 'asc';
+				this.sort_cat = category;
+				this.sort_ord = 'dsc';
 			}
-			if (app.sort_ord === 'asc') {
-				app.teams[app.selected_team].lineup.sort((a,b) => parseFloat(b.props[category]) - parseFloat(a.props[category]));
+
+			var sortProps = ((a, b) => a.props[this.sort_cat] < b.props[this.sort_cat]);
+
+			if (this.sort_ord === 'dsc') {
+				this.teams[this.selected_team].lineup.sort(sortProps);
+				this.teams[this.selected_team].rotation.sort(sortProps);
 			} else {
-				app.teams[app.selected_team].lineup.sort((a,b) => parseFloat(a.props[category]) - parseFloat(b.props[category]));
+				this.teams[this.selected_team].lineup.sort((a, b) => sortProps(b, a));
+				this.teams[this.selected_team].rotation.sort((a, b) => sortProps(b, a));
 			}
 		}
 	}
@@ -64,15 +76,15 @@ function getPlayers(ids, isBatter) {
 
 	}).then(function(players) {
 		var new_players = [];
+		var i = 0;
 		for (const player of players) {
 			var new_player = {
 				name: player.name,
-				props: {},
+				props: {originalIndex: i++}, //return current i then increment
 				batter: isBatter,
 				stars: stars(player, isBatter),
 				batName: player.bat
 			};
-
 			for (prop of Object.keys(player)) {
 				if (!prop_flags.exclude.includes(prop)) {
 					new_player.props[prop] = player[prop]
