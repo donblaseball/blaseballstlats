@@ -46,7 +46,7 @@ var app = new Vue({
 				this.sort_ord = 'dsc';
 			}
 
-			var sortProps = ((a, b) => a.props[this.sort_cat] < b.props[this.sort_cat]);
+			var sortProps = (a, b) => b.props[this.sort_cat] - a.props[this.sort_cat]; //i'm going to put .sort in The Hole
 
 			if (this.sort_ord === 'dsc') {
 				this.teams[this.selected_team].lineup.sort(sortProps);
