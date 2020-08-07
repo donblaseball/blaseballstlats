@@ -7,7 +7,9 @@ var app = new Vue({
 		selected_team: 0,
 		load_fails: 0,
 		failed_teams: false,
-		colourset: "default"
+		colourset: "default",
+		sort_ord: 'asc',
+		sort_cat: ''
 	},
 	computed: {
 		prop_fulllist: function () { //every prop organised by category, in an array
@@ -28,6 +30,19 @@ var app = new Vue({
 		},
 		doPropBorder: function (prop) {
 			return {propborderhere: this.prop_catbounds.includes(prop)};
+		},
+		sort: function (category) {
+			if (app.sort_cat === category) {
+				app.sort_ord === 'asc' ? app.sort_ord = 'dsc' : app.sort_ord = 'asc';
+			} else {
+				app.sort_cat = category;
+				app.sort_ord = 'asc';
+			}
+			if (app.sort_ord === 'asc') {
+				app.teams[app.selected_team].lineup.sort((a,b) => parseFloat(b.props[category]) - parseFloat(a.props[category]));
+			} else {
+				app.teams[app.selected_team].lineup.sort((a,b) => parseFloat(a.props[category]) - parseFloat(b.props[category]));
+			}
 		}
 	}
 });

@@ -27,7 +27,7 @@
 					<div class="playerhead"> 
 						<div class="name">STATS</div> 
 						<template v-for="cat in Object.keys(prop_cats)"><span class="propcat" :style="sizePropCat(cat)">{{cat}}</span></template>
-						<template v-for="prop in prop_fulllist"><span class="propname" style="grid-row: 2" :class="doPropBorder(prop)">{{abbreviations[prop]}}</span></template>
+						<template v-for="prop in prop_fulllist"><span @click="sort(prop)" class="propname" style="grid-row: 2" :class="doPropBorder(prop)">{{abbreviations[prop]}}</span></template>
 					</div>
 					<div class="bar"> LINEUP </div>
 					<div v-for="player in team.lineup"><player-deets v-bind:player="player"></player-deets></div>
