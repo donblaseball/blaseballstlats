@@ -70,7 +70,7 @@ function stars(e, isBatter) { //thank u SIBR
 }
 
 function getPlayers(ids, isBatter) {
-	return fetch("https://blaseball.com/database/players?ids=" + ids.join(","))
+	return fetch(url.players + ids.join(","))
 	  .then(function(response) {
 	   	return response.json()
 
@@ -113,7 +113,7 @@ async function getTeam(team) {
 	return t
 }
 
-fetch('https://blaseball.com/database/allTeams')
+fetch(url.teams)
   .then(function(response) {
   	return response.json();
 
