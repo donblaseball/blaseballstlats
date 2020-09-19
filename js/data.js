@@ -17,29 +17,91 @@ const base_tragicness = 0.1; //tragicness went up in season 3 so this is here if
 
 //New defs
 const prop_cats = {
-	baserunning: ["baseThirst", "continuation", "groundFriction", "indulgence", "laserlikeness"],
-    defense: ["anticapitalism", "chasiness", "omniscience", "tenaciousness", "watchfulness"],
-    hitting: ["buoyancy", "divinity", "martyrdom", "moxie", "musclitude", "patheticism", "thwackability", "tragicness"],
-    pitching: ["coldness", "overpowerment", "ruthlessness", "shakespearianism", "suppression", "unthwackability", "totalFingers"],
-    extras: ["cinnamon", "deceased", "fate", "peanutAllergy", "pressurization", "soul"]
+  baserunning: [
+    "baseThirst",
+    "continuation",
+    "groundFriction",
+    "indulgence",
+    "laserlikeness",
+  ],
+  defense: [
+    "anticapitalism",
+    "chasiness",
+    "omniscience",
+    "tenaciousness",
+    "watchfulness",
+  ],
+  hitting: [
+    "buoyancy",
+    "divinity",
+    "martyrdom",
+    "moxie",
+    "musclitude",
+    "patheticism",
+    "thwackability",
+    "tragicness",
+  ],
+  pitching: [
+    "coldness",
+    "overpowerment",
+    "ruthlessness",
+    "shakespearianism",
+    "suppression",
+    "unthwackability",
+    "totalFingers",
+  ],
+  extras: [
+    "cinnamon",
+    "deceased",
+    "fate",
+    "peanutAllergy",
+    "pressurization",
+    "soul",
+  ],
 };
 //good luck maintaining this! (actually just add new ones on the end)
 const abbreviations = {
-	anticapitalism: "anticap", baseThirst: "thrst", buoyancy: "float", chasiness: "chase", cinnamon: "cinnm", coldness: "cold", 
-	continuation: "cont", deceased: "dead", divinity: "divin", fate: "fate", groundFriction: "fric", indulgence: "indlg", laserlikeness: "laser", 
-	martyrdom: "martyr", moxie: "moxie", musclitude: "muscl", omniscience: "omnisc", overpowerment: "op", patheticism: "pathtc", peanutAllergy: "allergy",
-	pressurization: "prssr", ruthlessness: "ruth", shakespearianism: "ssper", soul: "soul", suppression: "supp", tenaciousness: "tenac", thwackability: "thwack", 
-	totalFingers: "fingers", tragicness: "tragic", unthwackability: "unthwk", watchfulness: "watch"
+  anticapitalism: "anticap",
+  baseThirst: "thrst",
+  buoyancy: "float",
+  chasiness: "chase",
+  cinnamon: "cinnm",
+  coldness: "cold",
+  continuation: "cont",
+  deceased: "dead",
+  divinity: "divin",
+  fate: "fate",
+  groundFriction: "fric",
+  indulgence: "indlg",
+  laserlikeness: "laser",
+  martyrdom: "martyr",
+  moxie: "moxie",
+  musclitude: "muscl",
+  omniscience: "omnisc",
+  overpowerment: "op",
+  patheticism: "pathtc",
+  peanutAllergy: "allergy",
+  pressurization: "prssr",
+  ruthlessness: "ruth",
+  shakespearianism: "ssper",
+  soul: "soul",
+  suppression: "supp",
+  tenaciousness: "tenac",
+  thwackability: "thwack",
+  totalFingers: "fingers",
+  tragicness: "tragic",
+  unthwackability: "unthwk",
+  watchfulness: "watch",
 };
 const prop_flags = {
-	exclude: ["_id", "name", "bat"], //do not store these in player.props
-	dontRate: ["cinnamon", "fate", "soul", "pressurization"], //do not colour-divine these
-	bad: ["patheticism"] //invert these before rating
+  exclude: ["_id", "name", "bat"], //do not store these in player.props
+  dontRate: ["cinnamon", "fate", "soul", "pressurization"], //do not colour-divine these
+  bad: ["patheticism"], //invert these before rating
 };
 const base_tragicness = 0.1; //tragicness went up in season 3 so this is here if it goes up again
 
-const url_prefix = "https://blaseballcors.herokuapp.com/"
+const url_prefix = "https://blaseballcors.herokuapp.com/";
 const url = {
-	players: url_prefix + "https://blaseball.com/database/players?ids=",
-	teams: url_prefix + "https://blaseball.com/database/allTeams"
-}
+  players: url_prefix + "https://blaseball.com/database/players?ids=",
+  teams: url_prefix + "https://blaseball.com/database/allTeams",
+};

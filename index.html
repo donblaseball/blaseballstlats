@@ -1,72 +1,131 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-	<meta charset="UTF-8">
-	<title>Blaseball Slats Viewer</title>
-	<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
-	<link rel="stylesheet" href="main.css">
-</head>
-<body>
-	<div id="app">
-		<div id="teamlist">
-			<div class="notice" v-show="failed_teams">Could not load teams. Reloading will fix, unless the machines are under load.</div>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Blaseball Slats Viewer</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <link rel="stylesheet" href="main.css" />
+  </head>
+  <body>
+    <div id="app">
+      <div id="teamlist">
+        <div class="notice" v-show="failed_teams">
+          Could not load teams. Reloading will fix, unless the machines are
+          under load.
+        </div>
 
-			<div class="notice" v-show="load_fails > 0">Some teams have not loaded. Reloading will help, unless the machines are under significant load. {{load_fails}} failed team loads.</div>
+        <div class="notice" v-show="load_fails > 0">
+          Some teams have not loaded. Reloading will help, unless the machines
+          are under significant load. {{load_fails}} failed team loads.
+        </div>
 
-			<div class="team" :class="{selected: index == selected_team}" v-for="(team, index) in teams" :style="{backgroundColor: team.color1}" @click="selected_team = index">
-				{{team.icon}} {{team.name}}
-				<span class="notice" v-if="team.lineup == undefined">Couldn't get lineup.</span>
-				<span class="notice" v-if="team.rotation == undefined">Couldn't get rotation.</span>
-			</div>
+        <div
+          class="team"
+          :class="{selected: index == selected_team}"
+          v-for="(team, index) in teams"
+          :style="{backgroundColor: team.color1}"
+          @click="selected_team = index"
+        >
+          {{team.icon}} {{team.name}}
+          <span class="notice" v-if="team.lineup == undefined"
+            >Couldn't get lineup.</span
+          >
+          <span class="notice" v-if="team.rotation == undefined"
+            >Couldn't get rotation.</span
+          >
+        </div>
 
-			<div class="notice" style="background-color: #333366">Bug? Feature request? Blaseball added a new stat and nobody noticed? Post it <a href="https://todo.sr.ht/~dittoslash/blaseballstlats">here</a> or ping me in <a href="https://discord.gg/nVZXxwX">the SIBR discord!</a></div>
-		</div>
+        <div class="notice" style="background-color: #333366">
+          Bug? Feature request? Blaseball added a new stat and nobody noticed?
+          Post it
+          <a href="https://todo.sr.ht/~dittoslash/blaseballstlats">here</a> or
+          ping me in <a href="https://discord.gg/nVZXxwX">the SIBR discord!</a>
+        </div>
+      </div>
 
-		<div id="players">
-			<div class="pteam" v-for="(team, index) in teams" :class="colourset_class">
-				<div v-show="index == selected_team">
+      <div id="players">
+        <div
+          class="pteam"
+          v-for="(team, index) in teams"
+          :class="colourset_class"
+        >
+          <div v-show="index == selected_team">
+            <div class="playerhead">
+              <div class="name" @click="sort('default')">STATS</div>
+              <template v-for="cat in Object.keys(prop_cats)"
+                ><span class="propcat" :style="sizePropCat(cat)"
+                  >{{cat}}</span
+                ></template
+              >
+              <template v-for="prop in prop_fulllist">
+                <span
+                  @click="sort(prop)"
+                  class="propname"
+                  style="grid-row: 2"
+                  :class="[doPropBorder(prop), sortStyleClass(prop)]"
+                >
+                  {{abbreviations[prop]}}
+                </span>
+              </template>
+            </div>
 
-					<div class="playerhead"> 
-						<div class="name" @click="sort('default')">STATS</div> 
-						<template v-for="cat in Object.keys(prop_cats)"><span class="propcat" :style="sizePropCat(cat)">{{cat}}</span></template>
-						<template v-for="prop in prop_fulllist">
-							<span @click="sort(prop)" class="propname" style="grid-row: 2" :class="[doPropBorder(prop), sortStyleClass(prop)]">
-								{{abbreviations[prop]}}
-							</span>
-						</template>
-					</div>
+            <div class="bar">LINEUP</div>
+            <div v-for="player in team.lineup">
+              <player-deets
+                @update-player="(args) => {getPlayer(args)}"
+                v-bind:player="player"
+              ></player-deets>
+            </div>
+            <div class="bar">ROTATION</div>
+            <div v-for="player in team.rotation">
+              <player-deets
+                @update-player="getPlayer"
+                v-bind:player="player"
+              ></player-deets>
+            </div>
+            <div class="bar">PLAYER</div>
+            <div v-for="player in selected_player">
+              <player-deets v-bind:player="player"></player-deets>
+            </div>
+          </div>
+        </div>
 
-					<div class="bar"> LINEUP </div>
-					<div v-for="player in team.lineup"><player-deets v-bind:player="player"></player-deets></div>
-					<div class="bar"> ROTATION </div>
-					<div v-for="player in team.rotation"><player-deets v-bind:player="player"></player-deets></div>
-				</div>
-			</div>
+        <div id="dictionary">
+          <span class="dictionary">Abbreviations Dictionary</span>
+          <span class="dictionary" v-for="item in prop_fulllist"
+            >{{item}}: {{abbreviations[item]}}</span
+          >
+        </div>
 
-			<div id="dictionary">
-				<span class="dictionary">Abbreviations Dictionary</span>
-				<span class="dictionary" v-for="item in prop_fulllist">{{item}}: {{abbreviations[item]}}</span>
-			</div>
+        <div id="palettepicker">
+          <span
+            class="palette cs_default"
+            :class="{selected: colourset=='default'}"
+            @click="colourset = 'default'"
+            >Default <span class="bad">bad</span><span class="ok">okay</span
+            ><span class="good">good</span><span class="great">great</span>
+          </span>
 
-			<div id="palettepicker">
-				<span class="palette cs_default" :class="{selected: colourset=='default'}" @click="colourset = 'default'">Default
-					<span class="bad">bad</span><span class="ok">okay</span><span class="good">good</span><span class="great">great</span>
-				</span>
+          <span
+            class="palette cs_rg"
+            :class="{selected: colourset=='rg'}"
+            @click="colourset = 'rg'"
+            >Red/Green <span class="bad">bad</span><span class="ok">okay</span
+            ><span class="good">good</span><span class="great">great</span>
+          </span>
 
-				<span class="palette cs_rg" :class="{selected: colourset=='rg'}" @click="colourset = 'rg'">Red/Green
-					<span class="bad">bad</span><span class="ok">okay</span><span class="good">good</span><span class="great">great</span>
-				</span>
-
-				<span class="palette cs_by" :class="{selected: colourset=='by'}" @click="colourset = 'by'">Blue/Yellow
-					<span class="bad">bad</span><span class="ok">okay</span><span class="good">good</span><span class="great">great</span>
-				</span>
-
-			</div>
-
-		</div>
-	</div>
-	<script src="js/data.js"></script>
-	<script src="js/comp-playerdeets.js"></script>
-	<script src="js/main.js"></script>
-</body>
+          <span
+            class="palette cs_by"
+            :class="{selected: colourset=='by'}"
+            @click="colourset = 'by'"
+            >Blue/Yellow <span class="bad">bad</span><span class="ok">okay</span
+            ><span class="good">good</span><span class="great">great</span>
+          </span>
+        </div>
+      </div>
+    </div>
+    <script src="js/data.js"></script>
+    <script src="js/comp-playerdeets.js"></script>
+    <script src="js/main.js"></script>
+  </body>
 </html>
